@@ -22,7 +22,6 @@ void Scigacz::crea(int x, int y) {
     std::cout << "&";
 }
 
-// IA: Insegue il giocatore
 void Scigacz::muovi(int px, int py) {
     if (!esiste) return;
 
@@ -57,7 +56,6 @@ void BiegaczPoz::crea(int x, int y, char direzione) {
     std::cout << "S";
 }
 
-// Movimento orizzontale automatico
 void BiegaczPoz::muovi() {
     gotoxy(x, y);
     std::cout << " ";
@@ -107,12 +105,11 @@ void Randomer::crea(int x, int y, int area, int velocità) {
     std::cout << "%";
 }
 
-// Movimento casuale
 void Randomer::muovi() {
     gotoxy(x, y);
     std::cout << " ";
 
-    int dx = (rand() % 3) - 1;  // -1, 0, 1
+    int dx = (rand() % 3) - 1;
     int dy = (rand() % 3) - 1;
 
     if (x + dx >= xMin && x + dx <= xMax) x += dx;
@@ -121,4 +118,62 @@ void Randomer::muovi() {
     gotoxy(x, y);
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 13);
     std::cout << "%";
+}
+
+// ------------------------------
+// Implementazione delle torrette
+// ------------------------------
+
+ArmatePoz::ArmatePoz() {
+    x = 0;
+    y = 0;
+    attiva = false;
+}
+
+void ArmatePoz::crea(int x, int y) {
+    this->x = x;
+    this->y = y;
+    attiva = true;
+    gotoxy(x, y);
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
+    std::cout << "=";
+}
+
+void ArmatePoz::spara() {
+    if (!attiva) return;
+    
+    for (int i = x + 1; i < x + 10; i++) {
+        gotoxy(i, y);
+        std::cout << "-";
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        gotoxy(i, y);
+        std::cout << " ";
+    }
+}
+
+ArmatePio::ArmatePio() {
+    x = 0;
+    y = 0;
+    attiva = false;
+}
+
+void ArmatePio::crea(int x, int y) {
+    this->x = x;
+    this->y = y;
+    attiva = true;
+    gotoxy(x, y);
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
+    std::cout << "I";
+}
+
+void ArmatePio::spara() {
+    if (!attiva) return;
+
+    for (int i = y + 1; i < y + 5; i++) {
+        gotoxy(x, i);
+        std::cout << "|";
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        gotoxy(x, i);
+        std::cout << " ";
+    }
 }
