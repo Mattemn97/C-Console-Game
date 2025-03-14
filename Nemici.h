@@ -11,7 +11,7 @@ public:
 
     Scigacz();
     void crea(int x, int y);
-    void muovi(int px, int py);  // IA per inseguire il giocatore
+    void muovi(int px, int py);
 };
 
 class BiegaczPoz {
@@ -22,7 +22,7 @@ public:
 
     BiegaczPoz();
     void crea(int x, int y, char direzione);
-    void muovi();  // Movimento orizzontale automatico
+    void muovi();
 };
 
 class Randomer {
@@ -35,7 +35,29 @@ public:
 
     Randomer();
     void crea(int x, int y, int area, int velocità);
-    void muovi();  // Movimento casuale
+    void muovi();
+};
+
+// Torretta fissa che spara orizzontalmente
+class ArmatePoz {
+public:
+    int x, y;
+    bool attiva;
+    
+    ArmatePoz();
+    void crea(int x, int y);
+    void spara();
+};
+
+// Torretta fissa che spara verticalmente
+class ArmatePio {
+public:
+    int x, y;
+    bool attiva;
+    
+    ArmatePio();
+    void crea(int x, int y);
+    void spara();
 };
 
 #endif // NEMICI_H
