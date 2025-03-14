@@ -15,6 +15,7 @@ ArmatePio torrettaVerticale;
 
 Gioco::Gioco(int livelloDifficolta) {
     difficolta = livelloDifficolta;
+    impostaVelocita(difficolta);
 
     livello.caricaMappa("level_1.txt");
     livello.generaElementi();
@@ -28,11 +29,6 @@ Gioco::Gioco(int livelloDifficolta) {
 }
 
 void Gioco::aggiorna() {
-    int velocitaNemici;
-    if (difficolta == 1) velocitaNemici = 300;
-    else if (difficolta == 2) velocitaNemici = 200;
-    else velocitaNemici = 100;  
-
     while (true) {
         if (_kbhit()) {  
             char input = getch();
@@ -48,7 +44,7 @@ void Gioco::aggiorna() {
         torrettaOrizzontale.spara();
         torrettaVerticale.spara();
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(velocitaNemici));
+        std::this_thread::sleep_for(std::chrono::milliseconds(impostaVelocita(difficolta)));
     }
 }
 
@@ -88,4 +84,19 @@ void Gioco::rilevaDanno() {
     if (c == '-' || c == '|') {
         giocatore.subisciDanno();
     }
+}
+
+void Gioco::wyczyscTablice() {
+    system("CLS");
+    livello.caricaMappa("level_1.txt");
+    livello.generaElementi();
+    gotoxy(giocatore.x, giocatore.y);
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+    std::cout << "P";
+}
+
+int Gioco::impostaVelocita(int livello) {
+    if (livello == 1) return 300;
+    else if (livello == 2) return 200;
+    else return 100;
 }
