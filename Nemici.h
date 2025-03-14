@@ -1,6 +1,8 @@
 #ifndef NEMICI_H
 #define NEMICI_H
 
+#include <windows.h>
+
 class Scigacz {
 public:
     int x, y;
@@ -8,6 +10,7 @@ public:
     int velocità;
 
     Scigacz();
+    void crea(int x, int y);
 };
 
 class BiegaczPoz {
@@ -17,6 +20,7 @@ public:
     char direzione;
 
     BiegaczPoz();
+    void crea(int x, int y, char direzione);
 };
 
 class Randomer {
@@ -28,6 +32,7 @@ public:
     int velocità;
 
     Randomer();
+    void crea(int x, int y, int area, int velocità);
 };
 
 #endif // NEMICI_H
