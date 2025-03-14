@@ -3,10 +3,10 @@
 
 class Giocatore {
 public:
-    int x;
-    int y;
+    int x, y;
     int vite;
     int munizioni;
+    int punteggio;
     int tempoRespawn;
     char direzione;
     bool ucciso;
@@ -14,7 +14,8 @@ public:
 
     Giocatore();
     void resetPosizione();
-    void subisciDanno();  // Nuova funzione
+    void subisciDanno();
+    void aumentaPunteggio(int valore);
 };
 
 #endif // GIOCATORE_H
