@@ -14,6 +14,10 @@ public:
     bool verificaCollisione(int x, int y);
     void gestisciInput(char input);
     void rilevaDanno();
+    
+    // Nuove funzioni
+    void wyczyscTablice();
+    void impostaVelocita(int livello);
 };
 
 #endif // GIOCO_H
