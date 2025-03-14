@@ -98,36 +98,36 @@ void Livello::creaBoss(int x, int y) {
     std::cout << "XXXXXXXXXXX";
     gotoxy(x - 3, y + 3);
     std::cout << "XXXXXXXXXXXXX";
-    gotoxy(x - 3, y + 4);
-    std::cout << "XXX XXXXX XXX";
-    gotoxy(x - 3, y + 5);
-    std::cout << "XX   XXX   XX";
-    gotoxy(x - 3, y + 6);
-    std::cout << "XXX XX XX XXX";
-    gotoxy(x - 3, y + 7);
-    std::cout << "XXXXXX XXXXXX";
-    gotoxy(x - 2, y + 8);
-    std::cout << "XXXXXXXXXXX";
-    gotoxy(x - 2, y + 9);
-    std::cout << "X  XXXXX  X";
-    gotoxy(x - 2, y + 10);
-    std::cout << "XX X X X XX";
-    gotoxy(x - 1, y + 11);
-    std::cout << "X       X";
-    gotoxy(x - 1, y + 12);
-    std::cout << "X       X";
-    gotoxy(x - 1, y + 13);
-    std::cout << "XX X X XX";
-    gotoxy(x - 1, y + 14);
-    std::cout << "XXXXXXXXX";
-    gotoxy(x, y + 15);
-    std::cout << "XXXXXXX";
-    gotoxy(x + 1, y + 16);
-    std::cout << "XXXXX";
-    gotoxy(x + 1, y + 17);
-    std::cout << "XXXXX";
 
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
     gotoxy(x + 15, y - 5);
     std::cout << "#";
+}
+
+void Livello::tworzBossaPokonany(int x, int y) {
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
+    gotoxy(x, y);
+    std::cout << "       ";
+    gotoxy(x - 1, y + 1);
+    std::cout << "       ";
+    gotoxy(x - 2, y + 2);
+    std::cout << "       ";
+    gotoxy(x - 3, y + 3);
+    std::cout << "  BOOM  ";
+    gotoxy(x - 3, y + 4);
+    std::cout << "  💥  ";
+}
+
+void Livello::tworzBossa1Raz(int x, int y) {
+    gotoxy(x, y);
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 6);
+    std::cout << "!!! ATTENZIONE !!!";
+    gotoxy(x, y + 1);
+    std::cout << "IL BOSS STA ARRIVANDO!";
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+    gotoxy(x, y);
+    std::cout << "                   ";
+    gotoxy(x, y + 1);
+    std::cout << "                         ";
+    creaBoss(x, y);
 }
