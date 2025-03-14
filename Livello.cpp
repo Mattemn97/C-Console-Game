@@ -1,10 +1,14 @@
 #include "Livello.h"
 #include "Utils.h"
 #include <iostream>
+#include <fstream>
+#include <vector>
 #include <windows.h>
 
+std::vector<std::string> mappa;  // Vettore per memorizzare la mappa
+
 Livello::Livello() {
-    // Costruttore vuoto, può essere esteso
+    // Costruttore vuoto
 }
 
 void Livello::caricaMappa(const std::string& nomeFile) {
@@ -14,67 +18,59 @@ void Livello::caricaMappa(const std::string& nomeFile) {
         return;
     }
 
+    mappa.clear();
     std::string riga;
     while (std::getline(file, riga)) {
-        std::cout << riga << std::endl;
+        mappa.push_back(riga);
     }
     file.close();
+
+    // Disegna la mappa sulla console
+    for (size_t i = 0; i < mappa.size(); i++) {
+        gotoxy(0, i);
+        std::cout << mappa[i];
+    }
 }
 
 void Livello::generaElementi() {
     std::cout << "Generazione degli elementi del livello..." << std::endl;
-    
-    // Generazione di oggetti di gioco
-    creaSkrzynie(10, 10);
-    creaZbierajkeZycie(15, 5);
-    creaZbierajkeMunizioni(20, 8);
-    creaZbierajkeCheckPoint(30, 12);
 
-    // Generazione del boss
-    creaBoss(50, 20);
-}
+    // Scansiona la mappa per posizionare oggetti di gioco
+    for (size_t y = 0; y < mappa.size(); y++) {
+        for (size_t x = 0; x < mappa[y].size(); x++) {
+            char c = mappa[y][x];
 
-// Funzione per creare il boss sulla console
-void Livello::creaBoss(int x, int y) {
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
-    gotoxy(x, y);
-    std::cout << "XXXXXXX";
-    gotoxy(x - 1, y + 1);
-    std::cout << "XXXXXXXXX";
-    gotoxy(x - 2, y + 2);
-    std::cout << "XXXXXXXXXXX";
-    gotoxy(x - 3, y + 3);
-    std::cout << "XXXXXXXXXXXXX";
-    gotoxy(x - 3, y + 4);
-    std::cout << "XXX XXXXX XXX";
-    gotoxy(x - 3, y + 5);
-    std::cout << "XX   XXX   XX";
-    gotoxy(x - 3, y + 6);
-    std::cout << "XXX XX XX XXX";
-    gotoxy(x - 3, y + 7);
-    std::cout << "XXXXXX XXXXXX";
-    gotoxy(x - 2, y + 8);
-    std::cout << "XXXXXXXXXXX";
-    gotoxy(x - 2, y + 9);
-    std::cout << "X  XXXXX  X";
-    gotoxy(x - 2, y + 10);
-    std::cout << "XX X X X XX";
-    gotoxy(x - 1, y + 11);
-    std::cout << "X       X";
-    gotoxy(x - 1, y + 12);
-    std::cout << "X       X";
-    gotoxy(x - 1, y + 13);
-    std::cout << "XX X X XX";
-    gotoxy(x - 1, y + 14);
-    std::cout << "XXXXXXXXX";
-    gotoxy(x, y + 15);
-    std::cout << "XXXXXXX";
-    gotoxy(x + 1, y + 16);
-    std::cout << "XXXXX";
-    gotoxy(x + 1, y + 17);
-    std::cout << "XXXXX";
-
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
-    gotoxy(x + 15, y - 5);
-    std::cout << "#";  // Simbolo del punto vulnerabile del boss
+            switch (c) {
+                case '#':  // Muro
+                    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
+                    break;
+                case 'P':  // Posizione iniziale del giocatore
+                    gotoxy(x, y);
+                    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+                    std::cout << "P";
+                    break;
+                case 'C':  // Checkpoint
+                    creaZbierajkeCheckPoint(x, y);
+                    break;
+                case '+':  // Vita extra
+                    creaZbierajkeZycie(x, y);
+                    break;
+                case 'A':  // Munizioni
+                    creaZbierajkeMunizioni(x, y);
+                    break;
+                case '&':  // Nemico inseguitore
+                    nemicoInseguitore.crea(x, y);
+                    break;
+                case 'S':  // Nemico corridore
+                    nemicoCorridore.crea(x, y, 'd');
+                    break;
+                case '%':  // Nemico random
+                    nemicoRandom.crea(x, y, 5, 2);
+                    break;
+                case 'B':  // Boss
+                    creaBoss(x, y);
+                    break;
+            }
+        }
+    }
 }
