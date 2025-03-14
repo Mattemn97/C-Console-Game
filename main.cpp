@@ -22,7 +22,8 @@ void menu() {
         std::cout << "2. Avvia Gioco (Medio)\n";
         std::cout << "3. Avvia Gioco (Difficile)\n";
         std::cout << "4. Mostra Legenda\n";
-        std::cout << "5. Esci\n";
+        std::cout << "5. Resetta Gioco\n";
+        std::cout << "6. Esci\n";
         std::cout << "Scelta: ";
         std::cin >> scelta;
 
@@ -44,13 +45,18 @@ void menu() {
                 system("pause");
                 break;
             case '5':
+                std::cout << "Resetting game...\n";
+                system("pause");
+                menu();
+                break;
+            case '6':
                 std::cout << "Uscita dal gioco...\n";
                 break;
             default:
                 std::cout << "Scelta non valida! Riprova.\n";
                 system("pause");
         }
-    } while (scelta != '5');
+    } while (scelta != '6');
 }
 
 void avviaGioco(int difficolta) {
