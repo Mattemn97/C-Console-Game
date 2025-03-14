@@ -2,6 +2,8 @@
 #include "Utils.h"
 #include <iostream>
 #include <conio.h>
+#include <thread>
+#include <chrono>
 
 Giocatore giocatore;
 Livello livello;
@@ -65,13 +67,13 @@ void Gioco::gestisciInput(char input) {
         case 's': if (!verificaCollisione(giocatore.x, giocatore.y + 1)) giocatore.y++; break;
         case 'a': if (!verificaCollisione(giocatore.x - 1, giocatore.y)) giocatore.x--; break;
         case 'd': if (!verificaCollisione(giocatore.x + 1, giocatore.y)) giocatore.x++; break;
-        case 'm':  // Simulazione di sparo
+        case 'm':  
             gotoxy(giocatore.x, giocatore.y - 1);
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
             std::cout << "o";
             break;
         case 'r': giocatore.resetPosizione(); break;
-        case 27: exit(0);  // ESC per uscire
+        case 27: exit(0);  
     }
 
     gotoxy(giocatore.x, giocatore.y);
@@ -79,7 +81,6 @@ void Gioco::gestisciInput(char input) {
     std::cout << "P";
 }
 
-// Funzione per rilevare se il giocatore è colpito
 void Gioco::rilevaDanno() {
     gotoxy(giocatore.x, giocatore.y);
     char c = getCursorChar();
