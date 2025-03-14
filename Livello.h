@@ -14,6 +14,10 @@ public:
     void creaZbierajkeMunizioni(int x, int y);
     void creaZbierajkeCheckPoint(int x, int y);
     void creaBoss(int x, int y);
+    
+    // Nuove funzioni
+    void tworzBossaPokonany(int x, int y);
+    void tworzBossa1Raz(int x, int y);
 };
 
 #endif // LIVELLO_H
