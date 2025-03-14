@@ -1,6 +1,8 @@
 #include "Nemici.h"
 #include "Utils.h"
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 #include <thread>
 #include <chrono>
 
@@ -20,6 +22,24 @@ void Scigacz::crea(int x, int y) {
     std::cout << "&";
 }
 
+// IA: Insegue il giocatore
+void Scigacz::muovi(int px, int py) {
+    if (!esiste) return;
+
+    gotoxy(x, y);
+    std::cout << " ";
+
+    if (x < px) x++;
+    else if (x > px) x--;
+
+    if (y < py) y++;
+    else if (y > py) y--;
+
+    gotoxy(x, y);
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 9);
+    std::cout << "&";
+}
+
 BiegaczPoz::BiegaczPoz() {
     x = 0;
     y = 0;
@@ -32,6 +52,30 @@ void BiegaczPoz::crea(int x, int y, char direzione) {
     this->y = y;
     this->direzione = direzione;
     vite = 2;
+    gotoxy(x, y);
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
+    std::cout << "S";
+}
+
+// Movimento orizzontale automatico
+void BiegaczPoz::muovi() {
+    gotoxy(x, y);
+    std::cout << " ";
+
+    if (direzione == 'd') {
+        x++;
+        if (getCursorChar() == '#') {
+            direzione = 'a';
+            x -= 2;
+        }
+    } else {
+        x--;
+        if (getCursorChar() == '#') {
+            direzione = 'd';
+            x += 2;
+        }
+    }
+
     gotoxy(x, y);
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
     std::cout << "S";
@@ -63,62 +107,18 @@ void Randomer::crea(int x, int y, int area, int velocità) {
     std::cout << "%";
 }
 
-// ------------------------------
-// Implementazione delle torrette
-// ------------------------------
-
-// Torretta che spara in orizzontale
-ArmatePoz::ArmatePoz() {
-    x = 0;
-    y = 0;
-    attiva = false;
-}
-
-void ArmatePoz::crea(int x, int y) {
-    this->x = x;
-    this->y = y;
-    attiva = true;
+// Movimento casuale
+void Randomer::muovi() {
     gotoxy(x, y);
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
-    std::cout << "=";
-}
+    std::cout << " ";
 
-void ArmatePoz::spara() {
-    if (!attiva) return;
-    
-    for (int i = x + 1; i < x + 10; i++) {  // Spara verso destra
-        gotoxy(i, y);
-        std::cout << "-";
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        gotoxy(i, y);
-        std::cout << " ";  // Cancella il proiettile
-    }
-}
+    int dx = (rand() % 3) - 1;  // -1, 0, 1
+    int dy = (rand() % 3) - 1;
 
-// Torretta che spara in verticale
-ArmatePio::ArmatePio() {
-    x = 0;
-    y = 0;
-    attiva = false;
-}
+    if (x + dx >= xMin && x + dx <= xMax) x += dx;
+    if (y + dy >= yMin && y + dy <= yMax) y += dy;
 
-void ArmatePio::crea(int x, int y) {
-    this->x = x;
-    this->y = y;
-    attiva = true;
     gotoxy(x, y);
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
-    std::cout << "I";
-}
-
-void ArmatePio::spara() {
-    if (!attiva) return;
-
-    for (int i = y + 1; i < y + 5; i++) {  // Spara verso il basso
-        gotoxy(x, i);
-        std::cout << "|";
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        gotoxy(x, i);
-        std::cout << " ";  // Cancella il proiettile
-    }
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 13);
+    std::cout << "%";
 }
