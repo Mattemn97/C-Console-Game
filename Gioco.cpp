@@ -11,7 +11,9 @@ Randomer nemicoRandom;
 ArmatePoz torrettaOrizzontale;
 ArmatePio torrettaVerticale;
 
-Gioco::Gioco() {
+Gioco::Gioco(int livelloDifficolta) {
+    difficolta = livelloDifficolta;
+
     livello.caricaMappa("level_1.txt");
     livello.generaElementi();
     
@@ -19,21 +21,32 @@ Gioco::Gioco() {
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
     std::cout << "P";
 
-    // Creiamo torrette per test
     torrettaOrizzontale.crea(30, 10);
     torrettaVerticale.crea(50, 5);
 }
 
 void Gioco::aggiorna() {
+    int velocitaNemici;
+    if (difficolta == 1) velocitaNemici = 300;
+    else if (difficolta == 2) velocitaNemici = 200;
+    else velocitaNemici = 100;  
+
     while (true) {
         if (_kbhit()) {  
             char input = getch();
             gestisciInput(input);
         }
 
-        rilevaDanno();  // Controlla se il giocatore viene colpito
+        rilevaDanno();
+        
+        nemicoInseguitore.muovi(giocatore.x, giocatore.y);
+        nemicoCorridore.muovi();
+        nemicoRandom.muovi();
+
         torrettaOrizzontale.spara();
         torrettaVerticale.spara();
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(velocitaNemici));
     }
 }
 
@@ -75,25 +88,3 @@ void Gioco::rilevaDanno() {
         giocatore.subisciDanno();
     }
 }
-
-void Gioco::aggiorna() {
-    while (true) {
-        if (_kbhit()) {  
-            char input = getch();
-            gestisciInput(input);
-        }
-
-        rilevaDanno();
-        
-        // Muove i nemici
-        nemicoInseguitore.muovi(giocatore.x, giocatore.y);
-        nemicoCorridore.muovi();
-        nemicoRandom.muovi();
-
-        torrettaOrizzontale.spara();
-        torrettaVerticale.spara();
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
-}
-
