@@ -13,7 +13,7 @@ int main() {
 
 void menu() {
     char scelta;
-    int difficolta = 2;  // Default: Medio
+    int difficolta = 2;  
 
     do {
         system("CLS");
@@ -21,7 +21,8 @@ void menu() {
         std::cout << "1. Avvia Gioco (Facile)\n";
         std::cout << "2. Avvia Gioco (Medio)\n";
         std::cout << "3. Avvia Gioco (Difficile)\n";
-        std::cout << "4. Esci\n";
+        std::cout << "4. Mostra Legenda\n";
+        std::cout << "5. Esci\n";
         std::cout << "Scelta: ";
         std::cin >> scelta;
 
@@ -39,13 +40,17 @@ void menu() {
                 avviaGioco(difficolta);
                 break;
             case '4':
+                mostraLegenda();
+                system("pause");
+                break;
+            case '5':
                 std::cout << "Uscita dal gioco...\n";
                 break;
             default:
                 std::cout << "Scelta non valida! Riprova.\n";
                 system("pause");
         }
-    } while (scelta != '4');
+    } while (scelta != '5');
 }
 
 void avviaGioco(int difficolta) {
