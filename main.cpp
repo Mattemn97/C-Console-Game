@@ -1,7 +1,5 @@
 #include <iostream>
-#include "Giocatore.h"
-#include "Nemici.h"
-#include "Livello.h"
+#include "Gioco.h"
 #include "Utils.h"
 
 void menu();
@@ -39,15 +37,6 @@ void menu() {
 
 void avviaGioco() {
     system("CLS");
-    Giocatore giocatore;
-    Livello livello;
-    
-    livello.caricaMappa("level_1.txt");
-    livello.generaElementi();
-    
-    gotoxy(giocatore.x, giocatore.y);
-    std::cout << "P";  // Simbolo del giocatore
-    
-    std::cout << "\nPremi un tasto per tornare al menu...\n";
-    system("pause");
+    Gioco gioco;
+    gioco.aggiorna();  // Avvia il ciclo di gioco
 }
