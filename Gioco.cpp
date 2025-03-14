@@ -75,3 +75,25 @@ void Gioco::rilevaDanno() {
         giocatore.subisciDanno();
     }
 }
+
+void Gioco::aggiorna() {
+    while (true) {
+        if (_kbhit()) {  
+            char input = getch();
+            gestisciInput(input);
+        }
+
+        rilevaDanno();
+        
+        // Muove i nemici
+        nemicoInseguitore.muovi(giocatore.x, giocatore.y);
+        nemicoCorridore.muovi();
+        nemicoRandom.muovi();
+
+        torrettaOrizzontale.spara();
+        torrettaVerticale.spara();
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+}
+
