@@ -1,4 +1,5 @@
 #include "Utils.h"
+#include <iostream>
 
 void SetWindow(int width, int height) {
     _COORD coord;
@@ -35,4 +36,15 @@ char getCursorChar() {
         }
     }
     return c;
+}
+
+void mostraLegenda() {
+    std::cout << "\n=== CONTROLLI DI GIOCO ===\n";
+    std::cout << "W - Muoviti in alto\n";
+    std::cout << "A - Muoviti a sinistra\n";
+    std::cout << "S - Muoviti in basso\n";
+    std::cout << "D - Muoviti a destra\n";
+    std::cout << "M - Spara\n";
+    std::cout << "R - Ripristina l'ultimo checkpoint\n";
+    std::cout << "ESC - Esci dal gioco\n";
 }
