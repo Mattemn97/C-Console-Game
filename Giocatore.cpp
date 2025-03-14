@@ -7,6 +7,7 @@ Giocatore::Giocatore() {
     y = 35;
     vite = 3;
     munizioni = 15;
+    punteggio = 0;
     tempoRespawn = 0;
     direzione = 'd';
     ucciso = false;
@@ -27,11 +28,16 @@ void Giocatore::resetPosizione() {
 void Giocatore::subisciDanno() {
     vite--;
     std::cout << "\n💥 Il giocatore ha subito danno! Vite rimanenti: " << vite << std::endl;
-    
+
     if (vite <= 0) {
         std::cout << "\n❌ GAME OVER ❌\n";
         exit(0);
     } else {
         resetPosizione();
     }
+}
+
+void Giocatore::aumentaPunteggio(int valore) {
+    punteggio += valore;
+    std::cout << "\n⭐ Punteggio: " << punteggio << std::endl;
 }
