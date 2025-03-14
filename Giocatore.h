@@ -14,6 +14,7 @@ public:
 
     Giocatore();
     void resetPosizione();
+    void subisciDanno();  // Nuova funzione
 };
 
 #endif // GIOCATORE_H
