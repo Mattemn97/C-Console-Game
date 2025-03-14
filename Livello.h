@@ -13,8 +13,6 @@ public:
     void creaZbierajkeZycie(int x, int y);
     void creaZbierajkeMunizioni(int x, int y);
     void creaZbierajkeCheckPoint(int x, int y);
-    
-    // Nuova funzione per il boss
     void creaBoss(int x, int y);
 };
 
